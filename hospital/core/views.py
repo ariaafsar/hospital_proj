@@ -4,7 +4,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAdminUser, IsAuthenticated 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
-from .permision import IsSuperUser
+from .permisions import IsSuperUser
 from .models import Doctor , Patient , Service , Trans
 
 class Login(TokenObtainPairView):
@@ -20,7 +20,6 @@ class ServiceView(generics.ListCreateAPIView):
     ordering_fields = ["date" , "price"]
     search_fields = '__all__'
     filterset_fields = ["date"]
-
     
     def get_permissions(self):
         if self.request.method == 'POST':
@@ -28,6 +27,10 @@ class ServiceView(generics.ListCreateAPIView):
         elif self.request.method == 'GET':
             self.permission_classes = [IsAuthenticated]
         return super(ServiceView, self).get_permissions()
+    
+    def get_queryset(self):
+        if self.request.method == 'GET':
+            return Service.objects.filter(patient__user = self.request.user)
     
 
 class ServiceEdit(generics.RetrieveUpdateDestroyAPIView):
