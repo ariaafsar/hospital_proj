@@ -3,11 +3,11 @@ from django.contrib.auth.models import User
 
 class doctor(models.Model):
     user = models.OneToOneField(User , on_delete= models.PROTECT)
-    category = models.charField(max_length=100)
+    category = models.CharField(max_length=100)
 
 class patient(models.Model):
     user = models.OneToOneField(User , on_delete= models.PROTECT)
-    doctor = models.ForeignKey(doctor, on_delete=models.CASCADE)
+
 
 class service(models.Model) :
     date = models.DateField()
@@ -15,5 +15,10 @@ class service(models.Model) :
     doctor = models.ForeignKey(doctor, on_delete=models.CASCADE)
     patient = models.ForeignKey(patient, on_delete=models.CASCADE)
     price = models.IntegerField()
+    status = models.CharField(max_length=50)
 
-# Create your models here.
+
+class Trans(models.Model):
+    service = models.OneToOneField(service)
+    date = models.DateField()
+
