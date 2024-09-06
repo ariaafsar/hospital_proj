@@ -10,7 +10,7 @@ class Patient(models.Model):
 
 
 class Service(models.Model) :
-    date = models.DateField()
+    date = models.DateTimeField()
     type = models.CharField(max_length=100)
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
@@ -20,4 +20,4 @@ class Service(models.Model) :
 
 class Trans(models.Model):
     service = models.OneToOneField(Service)
-    date = models.DateField()
+    date = models.DateField(auto_now=True)
