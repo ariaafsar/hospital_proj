@@ -19,5 +19,5 @@ class Service(models.Model) :
 
 
 class Trans(models.Model):
-    service = models.OneToOneField(Service)
+    service = models.OneToOneField(Service , on_delete=models.PROTECT)
     date = models.DateField(auto_now=True)
